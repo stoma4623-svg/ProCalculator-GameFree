@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Pro Calculator-Game Free</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Calculator Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .calculator-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 350px;
+            max-width: 450px;
+        }
+
+        .calculator-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .display {
+            width: 100%;
+            height: 80px;
+            background: #000;
+            color: #00ff00;
+            font-size: 2rem;
+            text-align: right;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+
+        .btn {
+            height: 60px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-number {
+            background: linear-gradient(145deg, #f0f0f0, #d1d1d1);
+            color: #333;
+        }
+
+        .btn-operator {
+            background: linear-gradient(145deg, #ff6b6b, #ff5252);
+            color: white;
+        }
+
+        .btn-equals {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-clear {
+            background: linear-gradient(145deg, #ffa726, #ff9800);
+            color: white;
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .game-container canvas {
+            border: 3px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .game-container .ui {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .game-container .score {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .game-container .instructions {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .game-container .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            display: none;
+        }
+
+        .game-container .game-over h2 {
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            color: #ff6b6b;
+        }
+
+        .game-container .final-score {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .game-container .restart-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .game-container .restart-btn:hover {
+            background: #45a049;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-container {
+                min-width: 300px;
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .display {
+                height: 70px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showCalculator('basic')">Basic Calculator</button>
+            <button class="nav-btn" onclick="showCalculator('age')">Age Calculator</button>
+            <button class="nav-btn" onclick="showCalculator('percentage')">Percentage Calculator</button>
+            <button class="nav-btn" onclick="showCalculator('game')">Flappy Bird</button>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Basic Calculator -->
+        <div id="basic-calculator" class="calculator-container">
+            <h2 class="calculator-title">Basic Calculator</h2>
+            <input type="text" id="display" class="display" readonly>
+            <div class="button-grid">
+                <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+                <button class="btn btn-clear" onclick="deleteLast()">←</button>
+                <button class="btn btn-operator" onclick="appendToDisplay('/')">/</button>
+                <button class="btn btn-operator" onclick="appendToDisplay('*')">×</button>
+                
+                <button class="btn btn-number" onclick="appendToDisplay('7')">7</button>
+                <button class="btn btn-number" onclick="appendToDisplay('8')">8</button>
+                <button class="btn btn-number" onclick="appendToDisplay('9')">9</button>
+                <button class="btn btn-operator" onclick="appendToDisplay('-')">-</button>
+                
+                <button class="btn btn-number" onclick="appendToDisplay('4')">4</button>
+                <button class="btn btn-number" onclick="appendToDisplay('5')">5</button>
+                <button class="btn btn-number" onclick="appendToDisplay('6')">6</button>
+                <button class="btn btn-operator" onclick="appendToDisplay('+')">+</button>
+                
+                <button class="btn btn-number" onclick="appendToDisplay('1')">1</button>
+                <button class="btn btn-number" onclick="appendToDisplay('2')">2</button>
+                <button class="btn btn-number" onclick="appendToDisplay('3')">3</button>
+                <button class="btn btn-equals" onclick="calculate()" rowspan="2">=</button>
+                
+                <button class="btn btn-number btn-zero" onclick="appendToDisplay('0')">0</button>
+                <button class="btn btn-number" onclick="appendToDisplay('.')">.</button>
+            </div>
+        </div>
+
+        <!-- Age Calculator -->
+        <div id="age-calculator" class="calculator-container hidden">
+            <h2 class="calculator-title">Age Calculator</h2>
+            <div class="form-group">
+                <label for="birthDate">Enter your birth date:</label>
+                <input type="date" id="birthDate">
+            </div>
+            <button class="calculate-btn" onclick="calculateAge()">Calculate Age</button>
+            <div id="age-result" class="result hidden">
+                <h3>Your Age:</h3>
+                <div id="age-display"></div>
+            </div>
+        </div>
+
+        <!-- Percentage Calculator -->
+        <div id="percentage-calculator" class="calculator-container hidden">
+            <h2 class="calculator-title">Percentage Calculator</h2>
+            <div class="form-group">
+                <label for="value1">Value:</label>
+                <input type="number" id="value1" placeholder="Enter value">
+            </div>
+            <div class="form-group">
+                <label for="percentage">Percentage:</label>
+                <input type="number" id="percentage" placeholder="Enter percentage">
+            </div>
+            <div class="form-group">
+                <label for="total">Total (for percentage of):</label>
+                <input type="number" id="total" placeholder="Enter total (optional)">
+            </div>
+            <button class="calculate-btn" onclick="calculatePercentage()">Calculate</button>
+            <div id="percentage-result" class="result hidden">
+                <h3>Results:</h3>
+                <div id="percentage-display"></div>
+            </div>
+        </div>
+
+        <!-- Flappy Bird Game -->
+        <div id="game-calculator" class="game-container hidden" style="position: relative;">
+            <canvas id="gameCanvas" width="480" height="640"></canvas>
+            
+            <div class="ui">
+                <div class="score" id="score">Score: 0</div>
+                <div class="instructions">Click or Press SPACE to flap!</div>
+            </div>
+            
+            <div class="game-over" id="gameOver">
+                <h2>Game Over!</h2>
+                <div class="final-score" id="finalScore">Final Score: 0</div>
+                <button class="restart-btn" onclick="restartGame()">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic Calculator Functions
+        let currentInput = '';
+        let operator = '';
+        let previousInput = '';
+
+        function appendToDisplay(value) {
+            const display = document.getElementById('display');
+            if (value === '*') {
+                display.value += '×';
+                currentInput += '*';
+            } else {
+                display.value += value;
+                currentInput += value;
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            currentInput = '';
+            operator = '';
+            previousInput = '';
+        }
+
+        function deleteLast() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+            currentInput = currentInput.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentInput.replace(/×/g, '*'));
+                document.getElementById('display').value = result;
+                currentInput = result.toString();
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+                currentInput = '';
+            }
+        }
+
+        // Age Calculator Functions
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const today = new Date();
+            
+            if (!birthDate || birthDate > today) {
+                alert('Please enter a valid birth date');
+                return;
+            }
+
+            let years = today.getFullYear() - birthDate.getFullYear();
+            let months = today.getMonth() - birthDate.getMonth();
+            let days = today.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const totalDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+            const totalHours = totalDays * 24;
+            const totalMinutes = totalHours * 60;
+
+            document.getElementById('age-display').innerHTML = `
+                <p><strong>${years}</strong> years, <strong>${months}</strong> months, <strong>${days}</strong> days</p>
+                <p>Total: <strong>${totalDays}</strong> days</p>
+                <p>Total: <strong>${totalHours}</strong> hours</p>
+                <p>Total: <strong>${totalMinutes}</strong> minutes</p>
+            `;
+            
+            document.getElementById('age-result').classList.remove('hidden');
+        }
+
+        // Percentage Calculator Functions
+        function calculatePercentage() {
+            const value1 = parseFloat(document.getElementById('value1').value);
+            const percentage = parseFloat(document.getElementById('percentage').value);
+            const total = parseFloat(document.getElementById('total').value);
+
+            if (isNaN(value1) || isNaN(percentage)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+
+            let results = '';
+
+            // Calculate percentage of value1
+            const percentageOfValue = (value1 * percentage) / 100;
+            results += `<p><strong>${percentage}%</strong> of <strong>${value1}</strong> = <strong>${percentageOfValue}</strong></p>`;
+
+            // If total is provided, calculate what percentage value1 is of total
+            if (!isNaN(total) && total !== 0) {
+                const percentageOfTotal = (value1 / total) * 100;
+                results += `<p><strong>${value1}</strong> is <strong>${percentageOfTotal.toFixed(2)}%</strong> of <strong>${total}</strong></p>`;
+            }
+
+            // Calculate percentage increase/decrease
+            if (!isNaN(total)) {
+                const increase = ((value1 - total) / total) * 100;
+                if (increase > 0) {
+                    results += `<p><strong>${value1}</strong> is <strong>${increase.toFixed(2)}%</strong> increase from <strong>${total}</strong></p>`;
+                } else if (increase < 0) {
+                    results += `<p><strong>${value1}</strong> is <strong>${Math.abs(increase).toFixed(2)}%</strong> decrease from <strong>${total}</strong></p>`;
+                }
+            }
+
+            document.getElementById('percentage-display').innerHTML = results;
+            document.getElementById('percentage-result').classList.remove('hidden');
+        }
+
+        // Navigation Functions
+        function showCalculator(type) {
+            // Hide all calculators
+            document.getElementById('basic-calculator').classList.add('hidden');
+            document.getElementById('age-calculator').classList.add('hidden');
+            document.getElementById('percentage-calculator').classList.add('hidden');
+            document.getElementById('game-calculator').classList.add('hidden');
+
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Show selected calculator and activate button
+            document.getElementById(type + '-calculator').classList.remove('hidden');
+            event.target.classList.add('active');
+
+            // Initialize game if flappy bird is selected
+            if (type === 'game') {
+                initFlappyBird();
+            }
+        }
+
+        // Flappy Bird Game Code
+        let gameInitialized = false;
+        let canvas, ctx, scoreElement, gameOverElement, finalScoreElement;
+        let gameState = 'playing';
+        let score = 0;
+        let frame = 0;
+
+        const bird = {
+            x: 100,
+            y: 300,
+            radius: 20,
+            velocity: 0,
+            gravity: 0.4,
+            jumpStrength: -7,
+            rotation: 0
+        };
+
+        let pipes = [];
+        const pipeWidth = 60;
+        const pipeGap = 180;
+        const pipeSpeed = 2;
+
+        const clouds = [];
+
+        function initFlappyBird() {
+            if (gameInitialized) return;
+            
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            scoreElement = document.getElementById('score');
+            gameOverElement = document.getElementById('gameOver');
+            finalScoreElement = document.getElementById('finalScore');
+
+            // Initialize clouds
+            for (let i = 0; i < 5; i++) {
+                clouds.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * 200 + 50,
+                    size: Math.random() * 30 + 20,
+                    speed: Math.random() * 0.5 + 0.2
+                });
+            }
+
+            initGame();
+            gameLoop();
+            
+            canvas.addEventListener('click', jump);
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    jump();
+                }
+            });
+            
+            gameInitialized = true;
+        }
+
+        function createPipe(x) {
+            const minHeight = 50;
+            const maxHeight = canvas.height - pipeGap - minHeight;
+            const height = Math.random() * (maxHeight - minHeight) + minHeight;
+            
+            return {
+                x: x,
+                topHeight: height,
+                bottomY: height + pipeGap,
+                bottomHeight: canvas.height - (height + pipeGap),
+                passed: false
+            };
+        }
+
+        function initGame() {
+            pipes = [];
+            for (let i = 0; i < 3; i++) {
+                pipes.push(createPipe(canvas.width + i * 200));
+            }
+        }
+
+        function drawBird() {
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#FFA500';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(bird.x + 6, bird.y - 4, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(bird.x + 8, bird.y - 4, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#FF6347';
+            ctx.beginPath();
+            ctx.moveTo(bird.x + bird.radius - 2, bird.y);
+            ctx.lineTo(bird.x + bird.radius + 8, bird.y - 2);
+            ctx.lineTo(bird.x + bird.radius + 8, bird.y + 2);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.strokeStyle = '#FFA500';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(bird.x - 8, bird.y, 8, -0.5, 0.5);
+            ctx.stroke();
+        }
+
+        function drawPipe(pipe) {
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+            
+            ctx.fillStyle = '#32CD32';
+            ctx.fillRect(pipe.x - 5, pipe.topHeight - 30, pipeWidth + 10, 30);
+            
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, pipe.bottomHeight);
+            
+            ctx.fillStyle = '#32CD32';
+            ctx.fillRect(pipe.x - 5, pipe.bottomY, pipeWidth + 10, 30);
+        }
+
+        function drawClouds() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            clouds.forEach(cloud => {
+                ctx.beginPath();
+                ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+                ctx.arc(cloud.x + cloud.size/2, cloud.y, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.arc(cloud.x - cloud.size/2, cloud.y, cloud.size * 0.8, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawGround() {
+            const groundHeight = 50;
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
+            
+            ctx.fillStyle = '#228B22';
+            ctx.fillRect(0, canvas.height - groundHeight, canvas.width, 10);
+        }
+
+        function updateBird() {
+            if (gameState !== 'playing') return;
+            
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+            
+            bird.rotation = Math.min(Math.max(bird.velocity * 0.05, -0.5), 1);
+            
+            if (bird.y + bird.radius > canvas.height - 50) {
+                gameOver();
+            }
+            
+            if (bird.y < 0) {
+                bird.y = 0;
+                bird.velocity = 0;
+            }
+        }
+
+        function updatePipes() {
+            if (gameState !== 'playing') return;
+            
+            pipes.forEach(pipe => {
+                pipe.x -= pipeSpeed;
+                
+                if (!pipe.passed && bird.x - bird.radius > pipe.x + pipeWidth) {
+                    pipe.passed = true;
+                    score++;
+                    scoreElement.textContent = `Score: ${score}`;
+                }
+                
+                if (bird.x + bird.radius > pipe.x && 
+                    bird.x - bird.radius < pipe.x + pipeWidth) {
+                    if (bird.y - bird.radius < pipe.topHeight || 
+                        bird.y + bird.radius > pipe.bottomY) {
+                        gameOver();
+                    }
+                }
+            });
+            
+            if (pipes[0].x < -pipeWidth) {
+                pipes.shift();
+                pipes.push(createPipe(pipes[pipes.length - 1].x + 200));
+            }
+        }
+
+        function updateClouds() {
+            clouds.forEach(cloud => {
+                cloud.x -= cloud.speed;
+                if (cloud.x < -cloud.size) {
+                    cloud.x = canvas.width + cloud.size;
+                    cloud.y = Math.random() * 200 + 50;
+                }
+            });
+        }
+
+        function gameOver() {
+            gameState = 'gameOver';
+            finalScoreElement.textContent = `Final Score: ${score}`;
+            gameOverElement.style.display = 'block';
+        }
+
+        function restartGame() {
+            gameState = 'playing';
+            score = 0;
+            bird.y = 300;
+            bird.velocity = 0;
+            bird.rotation = 0;
+            scoreElement.textContent = `Score: 0`;
+            gameOverElement.style.display = 'none';
+            initGame();
+        }
+
+        function jump() {
+            if (gameState === 'playing') {
+                bird.velocity = bird.jumpStrength;
+            }
+        }
+
+        function gameLoop() {
+            if (!canvas) return;
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(1, '#98FB98');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            drawClouds();
+            updateClouds();
+            
+            pipes.forEach(drawPipe);
+            updatePipes();
+            
+            drawBird();
+            updateBird();
+            
+            drawGround();
+            
+            frame++;
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Keyboard support for basic calculator
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('basic-calculator').classList.contains('hidden')) return;
+            
+            const key = e.key;
+            if ('0123456789.'.includes(key)) {
+                appendToDisplay(key);
+            } else if ('+-*/'.includes(key)) {
+                appendToDisplay(key);
+            } else if (key === 'Enter' || key === '=') {
+                e.preventDefault();
+                calculate();
+            } else if (key === 'Escape' || key === 'c' || key === 'C') {
+                clearDisplay();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            }
+        });
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
